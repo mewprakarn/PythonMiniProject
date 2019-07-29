@@ -2,10 +2,10 @@ import random
 
 start_game = 'p'
 while start_game == 'p':
-    input_text = input("Rock (r), Paper (p) ,Scissor (s)")
+    input_text = input("Rock (r), Paper (p) ,Scissor (s)").lower()
     while input_text not in ('r','p','s'):
         print('Wrong input')
-        input_text = input("Rock (r), Paper (p) ,Scissor (s)")
+        input_text = input("Rock (r), Paper (p) ,Scissor (s)").lower()
 
 #####################################################################################################################
 # Computer turn
