@@ -1,14 +1,4 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import random
-
-
-# In[103]:
-
 
 input_text = input("Rock (r), Paper (p) ,Scissor (s)")
 while input_text not in ('r','p','s'):
