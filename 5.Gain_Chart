@@ -1,0 +1,33 @@
+def gain_chart(data,target_col,predict_prob_col):
+    n = len(data)
+    total_target = sum(data[target_col])
+    data_ranked = data.sort_values([predict_prob_col],ascending=False)
+    event,non_event,total_event,percent_right,percent_wrong = [],[],[],[],[]
+
+    for i in np.split(data_ranked[target_col],10):
+        n_event = sum(i)
+        n_totalevent = len(i)
+        n_non_event = n_totalevent - n_event
+        right = n_event/total_target
+        wrong = n_non_event/(n-total_target)
+        
+        event.append(n_event)
+        total_event.append(n_totalevent)
+        non_event.append(n_non_event)
+        percent_right.append(right)
+        percent_wrong.append(wrong)
+        
+    print(event,non_event,total_event,right,wrong)
+    table = {'Decile':list(range(10,110,10)),
+             'Events':event,
+             'Non-Events':non_event,
+             'Total Events':total_event,
+             '% Right':percent_right,
+             '% Wrong':percent_wrong        
+    }
+    temp = pd.DataFrame(table)
+    temp['CumuRight'] = 100*temp['% Right'].cumsum()/temp['% Right'].sum()
+    temp['CumuWrong'] = 100*temp['% Wrong'].cumsum()/temp['% Wrong'].sum()
+    plt.plot(temp['Decile'],temp['CumuRight'])
+    plt.plot(temp['Decile'],temp['Decile'])
+    return temp
