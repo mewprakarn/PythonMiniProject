@@ -18,3 +18,5 @@ def bow_tf(df_column,vocabulary_=None):
             row_indices.append(n)
             col_indices.append(c)
     return pd.DataFrame.from_dict(bow ,columns=vocabulary_, orient='index')
+
+

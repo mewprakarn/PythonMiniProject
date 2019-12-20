@@ -6,7 +6,7 @@ def gain_lift_chart(target,predict_prob):
     total_target = sum(data.Target)
     event,non_event,total_event,percent_right,percent_wrong,lift_decile = [],[],[],[],[],[]
 
-    for i in np.split(data_ranked.Target,10):
+    for i in np.array_split(data_ranked.Target,10):
         n_event = sum(i)
         n_totalevent = len(i)
         n_non_event = n_totalevent - n_event
@@ -28,11 +28,13 @@ def gain_lift_chart(target,predict_prob):
              '% Right':percent_right,
              '% Wrong':percent_wrong 
     }
+    
     gain_table = pd.DataFrame(table)
     gain_table['Cum % Right'] = 100*gain_table['% Right'].cumsum()
     gain_table['Cum % Wrong'] = 100*gain_table['% Wrong'].cumsum()
     gain_table['Lift@decile'] = round((gain_table['% Right']/0.1)*100)
     gain_table['Lift'] = round((gain_table['Cum % Right']/gain_table['Decile'])*100)
+    
 #   plot gain
     plt.figure(figsize=(7,10))
     plt.subplot(311)
@@ -49,7 +51,7 @@ def gain_lift_chart(target,predict_prob):
     plt.plot(gain_table['Decile'],gain_table['Lift'],label='Model')
     plt.hlines(100,xmin=10,xmax=100,color='red',linestyles ='dashed',label ='Random')
     plt.title('Lift Chart')
-    plt.xlabel('Decile')
+    plt.xlabel('% Population')
     plt.ylabel('% Lift')
     plt.yticks(np.arange(0, 320, step=20))
     plt.grid(axis='y', linestyle='--', linewidth=0.5)
@@ -58,8 +60,8 @@ def gain_lift_chart(target,predict_prob):
     plt.subplot(313)
     plt.plot(gain_table['Decile'],gain_table['Lift@decile'],label='Model')
     plt.hlines(100,xmin=10,xmax=100,color='red',linestyles ='dashed',label ='Random')
-    plt.title('Lift@decile')
-    plt.xlabel('Decile')
+    plt.title('Lift@decile Chart')
+    plt.xlabel('% Population')
     plt.ylabel('% Lift')
     plt.yticks(np.arange(0, 320, step=20))
     plt.grid(axis='y', linestyle='--', linewidth=0.5)
