@@ -1,0 +1,10 @@
+import re
+
+def valid_email(email):
+#     EmailRegex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+    EmailRegex = re.compile(r"(^[a-zA-Z0-9_.+-]+@(hotmail|gmail|live|yahoo)\.[a-zA-Z0-9-.]+$)")
+    if (EmailRegex.search(email)):
+        text = 'valid'
+    else:
+        text = 'invalid'
+    return text
